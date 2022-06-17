@@ -20,16 +20,24 @@ class Automaton( State, Transition) {
   struct EdgeSome{
     TransitionSet transSome;
 
-    void opAddAssign( Transition trans){
+    //void opAddAssign( Transition trans){
+    void opOpAssign( string op)( Transition trans)
+      if (op == "+")
+    do{
       transSome+= trans;
     }
-    void opSubAssign( Transition trans){
+    void opOpAssign( string op)( Transition trans)
+      if (op == "-")
+    do{
       transSome-= trans;
     }
     Transition[] elements(){
       return transSome.elements;
     }
-    bool opIn_r( Transition trans){
+    //bool opIn_r( Transition trans){
+    bool opBinaryRight( string op)( Transition trans)
+      if (op == "in")
+    do{
       return trans in transSome;
     }
   }
@@ -45,8 +53,10 @@ class Automaton( State, Transition) {
   }
 
   // operators
-  Automaton opAddAssign(Transition trans)
-  body{
+  //Automaton opAddAssign(Transition trans)
+  Automaton opOpAssign( string op)( Transition trans)
+    if (op == "+")
+  do{
     this+= trans.sink[ false];
     this+= trans.sink[ true];
     transitions+= trans;
@@ -55,11 +65,13 @@ class Automaton( State, Transition) {
     return this;
   }
 
-  Automaton opSubAssign(Transition trans)
+  //Automaton opSubAssign(Transition trans)
+  Automaton opOpAssign( string op)( Transition trans)
+    if (op == "-")
   in{
     assert( trans in transitions);
   }
-  body{
+  do{
     if( trans in transitions){
       transitions-= trans;
     }
@@ -68,27 +80,33 @@ class Automaton( State, Transition) {
     return this;
   }
 
-  Automaton opAddAssign(State state)
-  body{
+  //Automaton opAddAssign(State state)
+  Automaton opOpAssign( string op)( State state)
+    if (op == "+")
+  do{
     foreach( trans; state.edges.elements)
       transitions+= trans;
     states.states+= state;
     return this;
   }
 
-  Automaton opAddAssign( StateSet set)
-  body{
+  //Automaton opAddAssign( StateSet set)
+  Automaton opOpAssign( string op)( StateSet set)
+    if (op == "+")
+  do{
     foreach( state; set.elements)
       this+= state;
     return this;
   }
 
-  Automaton opSubAssign(State state)
+  //Automaton opSubAssign(State state)
+  Automaton opOpAssign( string op)( State state)
+    if (op == "-")
   in{
     assert( state in states.states);
     //assert( state !in states.starts);
   }
-  body{
+  do{
     foreach( trans; state.edges.elements)
       transitions-= trans;
     foreach( trans; state.edges.elements)
@@ -101,12 +119,18 @@ class Automaton( State, Transition) {
 
   // properties
   class Finals{
-    void opAddAssign( State state /*,int mark= 0*/){
+    //void opAddAssign( State state /*,int mark= 0*/){
+    void opOpAssign( string op)( State state)
+      if (op == "+")
+    do{
       this.outer+=state;
       states.finals[ true]+= state;
       //states.finalMark[ state]= mark;
     }
-    void opSubAssign(State state){
+    //void opSubAssign(State state){
+    void opOpAssign( string op)( State state)
+      if (op == "-")
+    do{
       states.finals[ true]-= state;
     }
   }
@@ -117,11 +141,17 @@ class Automaton( State, Transition) {
   }
 
   class Starts{
-    void opAddAssign( State state){
+    //void opAddAssign( State state){
+    void opOpAssign( string op)( State state)
+      if (op == "+")
+    do{
       this.outer+= state;
       states.finals[ false]+= state;
     }
-    void opSubAssign( State state){
+    //void opSubAssign( State state){
+    void opOpAssign( string op)( State state)
+      if (op == "-")
+    do{
       states.finals[ false]-= state;
     }
   }

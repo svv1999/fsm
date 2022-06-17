@@ -37,7 +37,8 @@ class State( Transition){
   }
   alias toString= Object.toString;
   override string toString(){
-    return "s"~std.conv.to!string( id)~"";
+      import std.conv :to;
+    return "s" ~to!string( id) ~"";
   }
 }
 alias Transition!Alphabet Edge;

@@ -97,7 +97,8 @@ public Automaton toDfa( Automaton nfa){
       //writeln( ".... deleting ", state, " (forward unreachable)");
       nfa-= state;
     }
-  delete visited;
+  //delete visited;
+  visited.destroy;
         debug( clear) debug( 99) writeln( "nfa: ", nfa); 
 
   // delete all states which are backward unreachable
@@ -110,7 +111,8 @@ public Automaton toDfa( Automaton nfa){
       //writeln( ".... deleting ", state, " (backward unreachablei)");
       nfa-= state;
     }
-  delete visited;
+  //delete visited;
+  visited.destroy;
         debug( clear) debug( 98) writeln( "nfa: ", nfa); 
 
   auto s= sccs( nfa);

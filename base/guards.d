@@ -83,7 +83,7 @@ unittest{
 	teach( i==1, i=2, true)
     );
   }
-    catch {};
+    catch( Exception) {}
   assert( i==2 && !done);
   //assert( false);
   debug(guards) printf( "unittest( guards) passed\n");
